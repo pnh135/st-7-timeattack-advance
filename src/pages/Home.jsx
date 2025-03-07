@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { todoApi } from "../api/todos";
 import TodoForm from "../components/TodoForm";
 import TodoList from "../components/TodoList";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Home() {
   // TODO: 필수: useQuery 로 리팩터링 하세요.
@@ -20,10 +21,10 @@ export default function Home() {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const query = useQuery({
+    queryKey: ["todos"],
+    queryFn: fetchData,
+  });
 
   if (isLoading) {
     return <div style={{ fontSize: 36 }}>로딩중...</div>;
